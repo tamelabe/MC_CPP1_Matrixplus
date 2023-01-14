@@ -1,6 +1,11 @@
 #ifndef SRC_S21_MATRIX_OOP_H_
 #define SRC_S21_MATRIX_OOP_H_
 
+#include <iostream>
+#include <cmath>
+
+using namespace std;
+
 class S21Matrix {
     // Attributes
     int rows_, cols_;         // Rows and columns
@@ -8,6 +13,9 @@ class S21Matrix {
 
 public:
     S21Matrix();              // Default constructor
+    S21Matrix(int rows, int cols);
+    S21Matrix(const S21Matrix& other);
+    S21Matrix(S21Matrix&& other);
     ~S21Matrix();             // Destructor
 
     bool EqMatrix(const S21Matrix& other);
@@ -18,9 +26,15 @@ public:
     double Determinant();
     S21Matrix Transpose();
     S21Matrix CalcComplements();
-    S21Matrix InverseMatrix()
-}
+    S21Matrix InverseMatrix();
 
-сonstexpr auto range(int n);
+//    bool check();
+
+    void Print();  // testing
+
+    void SetMatrix(int i, int j, double value);
+};
+
+//сonstexpr auto range(int n);
 
 #endif  // SRC_S21_MATRIX_OOP_H_
