@@ -4,7 +4,13 @@ int main() {
     S21Matrix a(3,3);
     a.SetMatrix(0, 0, 5.5);
     a.SetMatrix(2, 2, 1.1);
+    S21Matrix b(2, 2);
+    b.SetMatrix(0, 0, 5.5);
+    b.SetMatrix(1, 1, 1.10001);
     a.Print();
+    b.Print();
+    bool res = a.EqMatrix(b);
+    cout << "res = " <<  res << endl;
     return 0;
 }
 
@@ -58,11 +64,12 @@ S21Matrix::~S21Matrix() {
 
 bool S21Matrix::EqMatrix(const S21Matrix& other) {
     bool flag = true;
-    if (this->rows_ > 0 && this->cols_ > 0 && other.cols_ > 0 && other.rows_ > 0 &&
-            this->rows_ == other.rows_ && this->cols_ == other.cols_) {
-        for (int i = 0; i < this->rows_; i++) {
-            for (int j = 0; (j < this->cols_) && flag; j++) {
-                if (fabs(this->matrix_[i][j] - other.matrix_[i][j] > 1e-7) {
+    if (rows_ > 0 && cols_ > 0 && other.cols_ > 0 && other.rows_ > 0 &&
+            rows_ == other.rows_ && cols_ == other.cols_) {
+        for (int i = 0; i < rows_; i++) {
+            for (int j = 0; (j < cols_) && flag; j++) {
+                cout << matrix_[i][j] - other.matrix_[i][j] << endl;
+                if (fabs(matrix_[i][j] - other.matrix_[i][j]) > 1e-7) {
                     flag = false;
                 }
             }
@@ -71,6 +78,66 @@ bool S21Matrix::EqMatrix(const S21Matrix& other) {
         flag = false;
     }
     return flag;
+}
+
+void S21Matrix::SumMatrix(const S21Matrix& other) {
+    if (rows_ != other.rows_ || cols_ != other.cols_) {
+        throw out_of_range("matrices aren't equal");
+    } else {
+        for (int i = 0; i < rows_; i++) {
+            for (int j = 0; j < cols_; j++) {
+                matrix_[i][j] += other.matrix_[i][j];
+            }
+        }
+    }
+}
+
+void S21Matrix::SubMatrix(const S21Matrix& other) {
+    if (rows_ != other.rows_ || cols_ != other.cols_) {
+        throw out_of_range("matrices aren't equal");
+    } else {
+        for (int i = 0; i < rows_; i++) {
+            for (int j = 0; j < cols_; j++) {
+                matrix_[i][j] -= other.matrix_[i][j];
+            }
+        }
+    }
+}
+
+void S21Matrix::MulNumber(const double num) {
+    for (int i = 0; i < rows_; i++) {
+        for (int j = 0; j < cols_; j++) {
+            matrix_[i][j] *= num;
+        }
+    }
+}
+
+void S21Matrix::MulMatrix(const S21Matrix& other) {
+    if (cols_ != other.rows_ || rows_ != other.cols_) {
+        throw out_of_range("columns and rows of matrices aren't equal");
+    } else {
+        for (int i = 0; i < rows_; i++) {
+            for (int j = 0; j < other.cols_; j++) {
+                for (int n = 0; n < other.rows_; n++) {
+                    matrix_[i][j] = matrix_[i][n] * other.matrix_[n][j];
+                }
+            }
+        }
+    }
+}
+
+S21Matrix S21Matrix::Transpose() {
+    S21Matrix temp(cols_, rows_);
+    for (int i = 0; i < rows_; i++) {
+        for (int j = 0; j < cols_; j++) {
+            temp.matrix_[j][i] = matrix_[i][j];
+        }
+    }
+    return temp;
+}
+
+double S21Matrix::Determinant() {
+
 }
 
 
