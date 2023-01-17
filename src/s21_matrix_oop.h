@@ -30,10 +30,27 @@ public:
 
 //    bool check();
 
+    void rm_rc(S21Matrix& other, int ni, int nj);
+    void convert_to_minor(S21Matrix& other);
+
     void Print();  // testing
 
     void SetMatrix(int i, int j, double value);
+
+    //operators
+    S21Matrix operator+(const S21Matrix& other);
+    S21Matrix operator-(const S21Matrix& other);
+    S21Matrix operator*(const S21Matrix& other);
+    S21Matrix operator*(const double& num);
+    bool operator==(const S21Matrix& other);
+    S21Matrix& operator=(const S21Matrix& other);
+    S21Matrix& operator+=(const S21Matrix& other);
+    S21Matrix& operator-=(const S21Matrix& other);
+    S21Matrix& operator*=(const S21Matrix& other);
+    S21Matrix& operator*=(const double& num);
+    double& operator()(const int rows, const int cols);
 };
+
 
 //сonstexpr auto range(int n);
 
