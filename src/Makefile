@@ -1,6 +1,6 @@
 GCC =  g++ -g -Wall -Werror -Wextra
-SOURCE = s21_matrix_oop.cpp
-TEST = s21_matrix_tests.cpp
+SOURCE = s21_matrix_oop.cc
+TEST = s21_matrix_tests.cc
 LIBA = s21_matrix_oop.a
 LIBO = s21_matrix_oop.o
 GCOV =--coverage
@@ -42,7 +42,7 @@ gcov_report: s21_matrix_oop.a
 check:
 	cppcheck --enable=all --suppress=missingIncludeSystem --inconclusive --check-config $(SOURCE) *.h
 	cp ../materials/linters/.clang-format .clang-format
-	clang-format -n s21_matrix_oop.cpp s21_matrix_oop.h
+	clang-format -n s21_matrix_oop.cc s21_matrix_tests.cc s21_matrix_oop.h
 	rm -rf .clang-format
 ifeq ($(OS), Darwin)
 	leaks --atExit -- test
