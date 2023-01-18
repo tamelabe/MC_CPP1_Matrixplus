@@ -27,11 +27,6 @@ s21_matrix_oop.a: clean
 	ar rcs $(LIBA) $(LIBO)
 	ranlib $(LIBA)
 
-test_:
-	clear
-	@$(GCC) matrix_test.cc s21_matrix_oop.cc -o test
-	@./test
-
 gcov_report: s21_matrix_oop.a
 	$(GCC) $(GCOV) $(TEST) $(SOURCE) $(LIBA) -L. $(LIBA)  $(LIBFLAGS) -o test
 	./test

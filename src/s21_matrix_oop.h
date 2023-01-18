@@ -36,15 +36,11 @@ class S21Matrix {
   S21Matrix CalcComplements();
   S21Matrix InverseMatrix();
 
-  //    bool check();
-
   // Additional functions
   void create_matrix();
   void remove_matrix();
   void rm_rc(S21Matrix& other, int ni, int nj);
   void convert_to_minor(S21Matrix& other);
-
-  void Print();  // testing
 
   // Operators
   S21Matrix operator+(const S21Matrix& other);
@@ -59,7 +55,5 @@ class S21Matrix {
   S21Matrix& operator*=(const double& num);
   double& operator()(const int rows, const int cols);
 };
-
-//сonstexpr auto range(int n);
 
 #endif  // SRC_S21_MATRIX_OOP_H_

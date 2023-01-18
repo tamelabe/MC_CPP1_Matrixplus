@@ -1,39 +1,6 @@
 #include "s21_matrix_oop.h"
-/*
-int main() {
-    S21Matrix m(2, 3);
-    m(1, 1) = 4.4;
-//    EXPECT_EQ(m(1, 1), 4.4);
-//    EXPECT_EQ(m.GetRows(), 2);
-//    EXPECT_EQ(m.GetCols(), 3);
-    m.SetRows(4);
-    m(3, 2) = 5.5;
-//    EXPECT_EQ(m(1, 1), 4.4);
-//    EXPECT_EQ(m(3, 2), 5.5);
-//    EXPECT_EQ(m.GetRows(), 4);
-//    EXPECT_EQ(m.GetCols(), 3);
-    return 0;
-}*/
 
 //////***CONSTRUCTORS AND DESTRUCTOR***//////
-
-void S21Matrix::create_matrix() {
-  if (rows_ <= 0 || cols_ <= 0) throw out_of_range("Incorrect matrix size");
-  matrix_ = new double*[rows_];
-  for (int i = 0; i < rows_; i++) {
-    matrix_[i] = new double[cols_];
-    for (int j = 0; j < cols_; j++) {
-      matrix_[i][j] = 0;
-    }
-  }
-}
-
-void S21Matrix::remove_matrix() {
-  for (int i = 0; i < rows_; i++) delete[] matrix_[i];
-  delete[] matrix_;
-  matrix_ = nullptr;
-}
-
 S21Matrix::S21Matrix() {
   rows_ = cols_ = 0;
   matrix_ = nullptr;
@@ -64,6 +31,24 @@ S21Matrix::~S21Matrix() {
   remove_matrix();
   rows_ = cols_ = 0;
   //    cout << "Destr end" << endl;
+}
+
+//////***ADDONS FOR CONSTR AND DESTR***//////
+void S21Matrix::create_matrix() {
+  if (rows_ <= 0 || cols_ <= 0) throw out_of_range("Incorrect matrix size");
+  matrix_ = new double*[rows_];
+  for (int i = 0; i < rows_; i++) {
+    matrix_[i] = new double[cols_];
+    for (int j = 0; j < cols_; j++) {
+      matrix_[i][j] = 0;
+    }
+  }
+}
+
+void S21Matrix::remove_matrix() {
+  for (int i = 0; i < rows_; i++) delete[] matrix_[i];
+  delete[] matrix_;
+  matrix_ = nullptr;
 }
 
 //////***GETTERS & SETTERS***//////
@@ -106,7 +91,6 @@ void S21Matrix::SetCols(int cols) {
 }
 
 //////***MATRIX FUNCTIONS***//////
-
 bool S21Matrix::EqMatrix(const S21Matrix& other) {
   bool flag = true;
   if (rows_ > 0 && cols_ > 0 && other.cols_ > 0 && other.rows_ > 0 &&
@@ -234,6 +218,8 @@ S21Matrix S21Matrix::InverseMatrix() {
   return M1;
 }
 
+//////***ADDITIONAL FUNCTIONS***//////
+// Creates matrix of the minors from the default matrix
 void S21Matrix::convert_to_minor(S21Matrix& other) {
   S21Matrix res(rows_, cols_);
   S21Matrix mnr(rows_ - 1, cols_ - 1);
@@ -247,15 +233,16 @@ void S21Matrix::convert_to_minor(S21Matrix& other) {
   }
 }
 
+// Creates minor of any element of the matrix (i and j)
 void S21Matrix::rm_rc(S21Matrix& other, int ni, int nj) {
   int i_row = 0, i_col = 0;
   for (int i = 0; i < other.rows_; i++) {
     if (i == ni) {
-      i_row = 1;  // Ловит нужную строку, чтобы ее пропустить
+      i_row = 1;  // Catches the desired row to skip
     }
     for (int j = 0; j < other.cols_; j++) {
       if (j == nj) {
-        i_col = 1;  // Ловит нужный столбец, чтобы его пропустить
+        i_col = 1;  // Catches the desired column to skip
       }
       other.matrix_[i][j] = matrix_[i + i_row][j + i_col];
     }
@@ -263,25 +250,7 @@ void S21Matrix::rm_rc(S21Matrix& other, int ni, int nj) {
   }
 }
 
-// bool S21Matrix::check() {
-//     bool flag  = false;
-//     if (rows_ > 0 && cols_ > 0) {
-//         flag = true;
-//     }
-//     return flag;
-// }
-
-void S21Matrix::Print() {
-  for (int i = 0; i < rows_; i++) {
-    for (int j = 0; j < cols_; j++) {
-      cout << matrix_[i][j] << " ";
-    }
-    cout << endl;
-  }
-}
-
 //////***OPERATORS***//////
-
 S21Matrix S21Matrix::operator+(const S21Matrix& other) {
   this->SumMatrix(other);
   return *this;
